@@ -1,0 +1,1565 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Granito Dom Pedrágio — O Guardião do Tempo</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Josefin+Sans:wght@200;300;400&display=swap');
+
+  :root {
+    --stone-dark: #1a1714;
+    --stone-mid: #2e2a26;
+    --stone-warm: #3d3530;
+    --granite-brown: #6b5d52;
+    --granite-beige: #a89880;
+    --granite-light: #c8b9a8;
+    --quartz: #e8e0d5;
+    --feldspar-pink: #c4896a;
+    --mica-gold: #b8962e;
+    --moss-green: #4a6741;
+    --deep-green: #2d4028;
+    --cream: #f0e8dc;
+    --text-light: #ede6dd;
+    --accent: #c4896a;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Josefin Sans', sans-serif;
+    background: var(--stone-dark);
+    color: var(--text-light);
+    overflow-x: hidden;
+    cursor: default;
+  }
+
+  /* ─── GRAIN OVERLAY ─── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0.4;
+  }
+
+  /* ─── SCROLL PROGRESS ─── */
+  #progress-bar {
+    position: fixed;
+    top: 0; left: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--feldspar-pink), var(--mica-gold));
+    z-index: 1000;
+    transition: width 0.1s;
+    width: 0%;
+  }
+
+  /* ─── SECTION BASE ─── */
+  section {
+    min-height: 100vh;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* ══════════════════════════════════════
+     1. INTRO
+  ══════════════════════════════════════ */
+  #intro {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    background: radial-gradient(ellipse at 50% 60%, #2a211a 0%, #0d0b09 100%);
+    padding: 2rem;
+  }
+
+  #intro::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 30% 70%, rgba(100,70,45,0.15) 0%, transparent 60%),
+                radial-gradient(circle at 75% 25%, rgba(184,150,46,0.08) 0%, transparent 50%);
+  }
+
+  .intro-diamond {
+    width: 120px; height: 120px;
+    border: 1px solid rgba(200,185,168,0.3);
+    transform: rotate(45deg);
+    margin-bottom: 3rem;
+    position: relative;
+    animation: diamondPulse 4s ease-in-out infinite;
+  }
+  .intro-diamond::before {
+    content: '◆';
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%,-50%) rotate(-45deg);
+    font-size: 2.5rem;
+    color: var(--granite-beige);
+    animation: diamondPulse 4s ease-in-out infinite reverse;
+  }
+  @keyframes diamondPulse {
+    0%,100% { opacity: 0.6; transform: rotate(45deg) scale(1); }
+    50% { opacity: 1; transform: rotate(45deg) scale(1.08); }
+  }
+
+  .intro-label {
+    font-family: 'Josefin Sans', sans-serif;
+    font-weight: 200;
+    letter-spacing: 0.5em;
+    font-size: 0.65rem;
+    color: var(--granite-beige);
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+    animation: fadeUp 1.2s ease both;
+  }
+
+  .intro-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2.2rem, 6vw, 5rem);
+    font-weight: 300;
+    line-height: 1.15;
+    color: var(--cream);
+    margin-bottom: 0.5rem;
+    animation: fadeUp 1.2s 0.2s ease both;
+  }
+
+  .intro-subtitle {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1rem, 2.5vw, 1.6rem);
+    font-style: italic;
+    color: var(--granite-beige);
+    margin-bottom: 3rem;
+    animation: fadeUp 1.2s 0.4s ease both;
+  }
+
+  .intro-quote {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1rem, 2.2vw, 1.4rem);
+    font-style: italic;
+    color: var(--granite-light);
+    max-width: 600px;
+    line-height: 1.7;
+    margin-bottom: 3.5rem;
+    opacity: 0.85;
+    animation: fadeUp 1.2s 0.6s ease both;
+  }
+
+  .btn-enter {
+    font-family: 'Josefin Sans', sans-serif;
+    font-weight: 300;
+    letter-spacing: 0.35em;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    color: var(--cream);
+    border: 1px solid rgba(200,185,168,0.4);
+    background: transparent;
+    padding: 1.1rem 3rem;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    transition: color 0.4s;
+    animation: fadeUp 1.2s 0.8s ease both;
+  }
+  .btn-enter::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--granite-brown);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.4s ease;
+  }
+  .btn-enter:hover::before { transform: scaleX(1); }
+  .btn-enter span { position: relative; z-index: 1; }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ══════════════════════════════════════
+     NAV DOTS
+  ══════════════════════════════════════ */
+  #nav-dots {
+    position: fixed;
+    right: 1.5rem;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+    z-index: 100;
+  }
+  .nav-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    border: 1px solid var(--granite-beige);
+    background: transparent;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.3s;
+    padding: 0;
+  }
+  .nav-dot.active {
+    background: var(--feldspar-pink);
+    transform: scale(1.4);
+    border-color: var(--feldspar-pink);
+  }
+
+  /* ══════════════════════════════════════
+     SECTION HEADERS
+  ══════════════════════════════════════ */
+  .section-header {
+    text-align: center;
+    padding: 5rem 2rem 3rem;
+    position: relative;
+    z-index: 2;
+  }
+  .section-num {
+    font-family: 'Josefin Sans', sans-serif;
+    font-weight: 200;
+    font-size: 0.6rem;
+    letter-spacing: 0.6em;
+    color: var(--feldspar-pink);
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 0.8rem;
+  }
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    font-weight: 300;
+    color: var(--cream);
+    line-height: 1.2;
+  }
+  .section-line {
+    width: 60px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--granite-beige), transparent);
+    margin: 1.5rem auto 0;
+  }
+
+  /* ══════════════════════════════════════
+     2. HISTÓRIA
+  ══════════════════════════════════════ */
+  #historia {
+    background: linear-gradient(180deg, #1a1714 0%, #221e1a 100%);
+    padding-bottom: 5rem;
+  }
+
+  .story-container {
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 0 2rem;
+  }
+
+  .story-paragraph {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.05rem, 2vw, 1.25rem);
+    font-weight: 300;
+    line-height: 1.9;
+    color: var(--granite-light);
+    margin-bottom: 2.5rem;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+  .story-paragraph.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .story-paragraph em {
+    font-style: italic;
+    color: var(--cream);
+  }
+  .story-paragraph strong {
+    font-weight: 600;
+    color: var(--feldspar-pink);
+  }
+
+  .story-aside {
+    border-left: 2px solid var(--feldspar-pink);
+    padding-left: 1.5rem;
+    margin: 3rem 0;
+    opacity: 0;
+    transform: translateX(-20px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+  .story-aside.visible { opacity: 1; transform: translateX(0); }
+  .story-aside p {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 1.1rem;
+    color: var(--granite-beige);
+    line-height: 1.7;
+  }
+
+  /* ══════════════════════════════════════
+     3. FORMAÇÃO — TIMELINE ANIMADA
+  ══════════════════════════════════════ */
+  #formacao {
+    background: linear-gradient(180deg, #221e1a 0%, #1a1714 100%);
+    padding-bottom: 5rem;
+  }
+
+  .formation-scene {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+    position: relative;
+  }
+
+  /* Earth layers cross-section */
+  .earth-layers {
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto 4rem;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid rgba(200,185,168,0.15);
+    position: relative;
+  }
+
+  .earth-layers svg {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  /* Timeline steps */
+  .timeline {
+    position: relative;
+    padding-left: 2rem;
+  }
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 1px;
+    background: linear-gradient(180deg, transparent, var(--granite-beige), transparent);
+  }
+
+  .timeline-step {
+    position: relative;
+    padding: 0 0 3.5rem 2.5rem;
+    opacity: 0;
+    transform: translateX(-20px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  .timeline-step.visible { opacity: 1; transform: translateX(0); }
+
+  .timeline-dot {
+    position: absolute;
+    left: -5px; top: 4px;
+    width: 11px; height: 11px;
+    border-radius: 50%;
+    border: 2px solid var(--feldspar-pink);
+    background: var(--stone-dark);
+    transition: background 0.3s;
+  }
+  .timeline-step.visible .timeline-dot { background: var(--feldspar-pink); }
+
+  .timeline-phase {
+    font-family: 'Josefin Sans', sans-serif;
+    font-weight: 200;
+    font-size: 0.6rem;
+    letter-spacing: 0.5em;
+    color: var(--mica-gold);
+    text-transform: uppercase;
+    margin-bottom: 0.4rem;
+  }
+
+  .timeline-heading {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.5rem;
+    font-weight: 400;
+    color: var(--cream);
+    margin-bottom: 0.7rem;
+  }
+
+  .timeline-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.05rem;
+    line-height: 1.8;
+    color: var(--granite-light);
+  }
+
+  .timeline-icon {
+    font-size: 1.8rem;
+    margin-bottom: 0.6rem;
+    display: block;
+  }
+
+  /* Magma animation */
+  .magma-visual {
+    width: 100%;
+    height: 120px;
+    border-radius: 8px;
+    overflow: hidden;
+    margin: 1rem 0 2.5rem;
+    position: relative;
+    background: linear-gradient(180deg, #1a0f0a 0%, #3a1a0a 100%);
+    border: 1px solid rgba(200,100,30,0.2);
+  }
+  .magma-blob {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(20px);
+    animation: magmaFloat 4s ease-in-out infinite;
+  }
+  .magma-blob:nth-child(1) { width:100px;height:100px;background:rgba(200,80,20,0.6);left:10%;bottom:-20px;animation-delay:0s; }
+  .magma-blob:nth-child(2) { width:140px;height:140px;background:rgba(220,120,20,0.5);left:35%;bottom:-30px;animation-delay:1.2s; }
+  .magma-blob:nth-child(3) { width:80px;height:80px;background:rgba(240,160,40,0.6);left:65%;bottom:-15px;animation-delay:0.6s; }
+  .magma-blob:nth-child(4) { width:120px;height:120px;background:rgba(200,60,10,0.5);left:82%;bottom:-25px;animation-delay:1.8s; }
+  .magma-label {
+    position: absolute;
+    bottom: 0.5rem; left: 50%;
+    transform: translateX(-50%);
+    font-family: 'Josefin Sans', sans-serif;
+    font-size: 0.55rem;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: rgba(255,200,100,0.7);
+    z-index: 2;
+    white-space: nowrap;
+  }
+  @keyframes magmaFloat {
+    0%,100% { transform: translateY(0) scale(1); }
+    50% { transform: translateY(-12px) scale(1.1); }
+  }
+
+  /* Crystal animation */
+  .crystal-visual {
+    display: flex;
+    gap: 1rem;
+    margin: 1rem 0 2.5rem;
+    flex-wrap: wrap;
+  }
+  .crystal-item {
+    flex: 1;
+    min-width: 80px;
+    aspect-ratio: 1;
+    border-radius: 4px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    font-family: 'Josefin Sans', sans-serif;
+    font-size: 0.55rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    border: 1px solid rgba(200,185,168,0.15);
+    animation: crystalGrow 2s ease both;
+    padding: 1rem 0.5rem;
+  }
+  .crystal-item:nth-child(1) { background: rgba(220,215,210,0.08); color: #ddd8d0; animation-delay: 0.2s; }
+  .crystal-item:nth-child(2) { background: rgba(196,137,106,0.12); color: var(--feldspar-pink); animation-delay: 0.5s; }
+  .crystal-item:nth-child(3) { background: rgba(184,150,46,0.12); color: var(--mica-gold); animation-delay: 0.8s; }
+  .crystal-emoji { font-size: 1.6rem; }
+  @keyframes crystalGrow {
+    from { opacity: 0; transform: scale(0.7); }
+    to { opacity: 1; transform: scale(1); }
+  }
+
+  /* ══════════════════════════════════════
+     4. MINERAIS INTERATIVOS
+  ══════════════════════════════════════ */
+  #minerais {
+    background: linear-gradient(180deg, #1a1714 0%, #1e1c18 100%);
+    padding-bottom: 5rem;
+  }
+
+  .minerals-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1.5rem;
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+  }
+
+  .mineral-card {
+    background: rgba(40,36,30,0.6);
+    border: 1px solid rgba(200,185,168,0.12);
+    border-radius: 4px;
+    padding: 2rem;
+    cursor: pointer;
+    transition: transform 0.3s, border-color 0.3s, background 0.3s;
+    position: relative;
+    overflow: hidden;
+  }
+  .mineral-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    transition: opacity 0.4s;
+  }
+  .mineral-card[data-mineral="quartzo"]::before { background: radial-gradient(circle at top, rgba(220,215,210,0.08), transparent 70%); }
+  .mineral-card[data-mineral="feldspato"]::before { background: radial-gradient(circle at top, rgba(196,137,106,0.1), transparent 70%); }
+  .mineral-card[data-mineral="mica"]::before { background: radial-gradient(circle at top, rgba(184,150,46,0.1), transparent 70%); }
+
+  .mineral-card:hover::before { opacity: 1; }
+  .mineral-card:hover { transform: translateY(-4px); border-color: rgba(200,185,168,0.3); }
+  .mineral-card.active { border-color: var(--feldspar-pink); background: rgba(50,40,32,0.8); }
+
+  .mineral-icon {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    display: block;
+  }
+  .mineral-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.6rem;
+    font-weight: 400;
+    color: var(--cream);
+    margin-bottom: 0.3rem;
+  }
+  .mineral-formula {
+    font-family: 'Josefin Sans', sans-serif;
+    font-weight: 200;
+    font-size: 0.65rem;
+    letter-spacing: 0.3em;
+    color: var(--mica-gold);
+    margin-bottom: 1rem;
+  }
+  .mineral-teaser {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.95rem;
+    color: var(--granite-beige);
+    line-height: 1.6;
+  }
+  .mineral-expand {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.5s ease;
+  }
+  .mineral-card.active .mineral-expand { max-height: 500px; }
+  .mineral-expand-inner {
+    padding-top: 1.2rem;
+    border-top: 1px solid rgba(200,185,168,0.15);
+    margin-top: 1.2rem;
+  }
+  .mineral-expand-inner p {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.98rem;
+    line-height: 1.75;
+    color: var(--granite-light);
+    margin-bottom: 0.8rem;
+  }
+  .mineral-expand-inner p:last-child { margin-bottom: 0; }
+  .mineral-story {
+    font-style: italic;
+    color: var(--cream) !important;
+    border-left: 1px solid var(--mica-gold);
+    padding-left: 0.8rem;
+  }
+  .mineral-tag {
+    display: inline-block;
+    font-family: 'Josefin Sans', sans-serif;
+    font-weight: 200;
+    font-size: 0.55rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    padding: 0.3rem 0.7rem;
+    border: 1px solid rgba(200,185,168,0.2);
+    color: var(--granite-beige);
+    margin-right: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+
+  /* ══════════════════════════════════════
+     5. CICLO DAS ROCHAS
+  ══════════════════════════════════════ */
+  #ciclo {
+    background: linear-gradient(180deg, #1e1c18 0%, #191714 100%);
+    padding-bottom: 5rem;
+  }
+
+  .cycle-scene {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+  }
+
+  .cycle-diagram {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 1.6;
+    margin-bottom: 3rem;
+  }
+
+  .cycle-diagram svg {
+    width: 100%;
+    height: 100%;
+  }
+
+  .cycle-legend {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 1rem;
+    margin-top: 2rem;
+  }
+  .legend-item {
+    display: flex;
+    gap: 0.8rem;
+    align-items: flex-start;
+    padding: 1rem;
+    background: rgba(40,36,30,0.4);
+    border-left: 2px solid transparent;
+    transition: border-color 0.3s;
+  }
+  .legend-item:hover { border-left-color: var(--feldspar-pink); }
+  .legend-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    margin-top: 3px;
+  }
+  .legend-text h4 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1rem;
+    color: var(--cream);
+    margin-bottom: 0.2rem;
+  }
+  .legend-text p {
+    font-family: 'Josefin Sans', sans-serif;
+    font-weight: 200;
+    font-size: 0.65rem;
+    color: var(--granite-beige);
+    line-height: 1.5;
+    letter-spacing: 0.03em;
+  }
+
+  /* ══════════════════════════════════════
+     6. QUIZ
+  ══════════════════════════════════════ */
+  #quiz {
+    background: linear-gradient(180deg, #191714 0%, #1a1714 100%);
+    padding-bottom: 5rem;
+  }
+
+  .quiz-container {
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+  }
+
+  .quiz-progress {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 2.5rem;
+    justify-content: center;
+  }
+  .quiz-pip {
+    width: 30px;
+    height: 3px;
+    background: rgba(200,185,168,0.2);
+    transition: background 0.3s;
+  }
+  .quiz-pip.done { background: var(--feldspar-pink); }
+  .quiz-pip.current { background: var(--mica-gold); }
+
+  .quiz-card {
+    background: rgba(40,36,30,0.5);
+    border: 1px solid rgba(200,185,168,0.12);
+    border-radius: 4px;
+    padding: 2.5rem;
+    animation: fadeUp 0.5s ease both;
+  }
+
+  .quiz-q-num {
+    font-family: 'Josefin Sans', sans-serif;
+    font-weight: 200;
+    font-size: 0.6rem;
+    letter-spacing: 0.5em;
+    color: var(--feldspar-pink);
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+  }
+
+  .quiz-question {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.1rem, 2.5vw, 1.4rem);
+    font-weight: 400;
+    color: var(--cream);
+    line-height: 1.6;
+    margin-bottom: 2rem;
+  }
+
+  .quiz-options {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+  }
+
+  .quiz-btn {
+    font-family: 'Josefin Sans', sans-serif;
+    font-weight: 300;
+    font-size: 0.78rem;
+    letter-spacing: 0.1em;
+    color: var(--text-light);
+    background: transparent;
+    border: 1px solid rgba(200,185,168,0.2);
+    padding: 1rem 1.5rem;
+    text-align: left;
+    cursor: pointer;
+    transition: border-color 0.2s, background 0.2s;
+    border-radius: 2px;
+  }
+  .quiz-btn:hover:not(:disabled) {
+    border-color: rgba(200,185,168,0.5);
+    background: rgba(200,185,168,0.05);
+  }
+  .quiz-btn.correct { border-color: var(--moss-green); background: rgba(74,103,65,0.15); color: #8fc885; }
+  .quiz-btn.wrong { border-color: #8b3a3a; background: rgba(139,58,58,0.1); color: #c47070; }
+  .quiz-btn:disabled { cursor: default; }
+
+  .quiz-feedback {
+    margin-top: 1.2rem;
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 1rem;
+    line-height: 1.6;
+    min-height: 1.5rem;
+    transition: opacity 0.3s;
+  }
+  .quiz-feedback.correct { color: #8fc885; }
+  .quiz-feedback.wrong { color: #c47070; }
+
+  .quiz-next-btn {
+    display: none;
+    margin-top: 1.5rem;
+    font-family: 'Josefin Sans', sans-serif;
+    font-weight: 300;
+    letter-spacing: 0.3em;
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    color: var(--cream);
+    border: 1px solid rgba(200,185,168,0.3);
+    background: transparent;
+    padding: 0.9rem 2rem;
+    cursor: pointer;
+    transition: background 0.3s;
+  }
+  .quiz-next-btn:hover { background: rgba(200,185,168,0.08); }
+
+  .quiz-result {
+    text-align: center;
+    padding: 3rem 1rem;
+    animation: fadeUp 0.6s ease both;
+  }
+  .quiz-result-score {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 5rem;
+    font-weight: 300;
+    color: var(--cream);
+    line-height: 1;
+    margin-bottom: 0.5rem;
+  }
+  .quiz-result-label {
+    font-family: 'Josefin Sans', sans-serif;
+    font-weight: 200;
+    letter-spacing: 0.4em;
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    color: var(--granite-beige);
+    margin-bottom: 1.5rem;
+  }
+  .quiz-result-msg {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.2rem;
+    font-style: italic;
+    color: var(--granite-light);
+    line-height: 1.7;
+    max-width: 420px;
+    margin: 0 auto 2rem;
+  }
+  .quiz-restart-btn {
+    font-family: 'Josefin Sans', sans-serif;
+    font-weight: 300;
+    letter-spacing: 0.3em;
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    color: var(--cream);
+    border: 1px solid rgba(200,185,168,0.3);
+    background: transparent;
+    padding: 0.9rem 2rem;
+    cursor: pointer;
+    transition: background 0.3s;
+  }
+  .quiz-restart-btn:hover { background: rgba(200,185,168,0.08); }
+
+  /* ══════════════════════════════════════
+     7. FINAL
+  ══════════════════════════════════════ */
+  #final {
+    min-height: 100vh;
+    background: radial-gradient(ellipse at 50% 40%, #221a14 0%, #0d0b09 100%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 4rem 2rem;
+    text-align: center;
+  }
+
+  .final-ornament {
+    font-size: 2rem;
+    color: var(--granite-beige);
+    opacity: 0.4;
+    margin-bottom: 2rem;
+    letter-spacing: 0.5em;
+  }
+
+  .final-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+    font-weight: 300;
+    line-height: 1.9;
+    color: var(--granite-light);
+    max-width: 720px;
+    margin-bottom: 3rem;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 1s ease, transform 1s ease;
+  }
+  .final-text.visible { opacity: 1; transform: translateY(0); }
+
+  .final-quote {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.2rem, 3vw, 2rem);
+    font-style: italic;
+    color: var(--cream);
+    max-width: 600px;
+    margin-bottom: 3rem;
+    opacity: 0;
+    transition: opacity 1.2s 0.3s ease, transform 1.2s 0.3s ease;
+    transform: translateY(20px);
+  }
+  .final-quote.visible { opacity: 1; transform: translateY(0); }
+
+  .final-meta {
+    font-family: 'Josefin Sans', sans-serif;
+    font-weight: 200;
+    letter-spacing: 0.5em;
+    font-size: 0.6rem;
+    text-transform: uppercase;
+    color: var(--granite-brown);
+    opacity: 0;
+    transition: opacity 1.2s 0.6s ease;
+  }
+  .final-meta.visible { opacity: 1; }
+
+  .final-diamond {
+    font-size: 1.5rem;
+    color: var(--mica-gold);
+    opacity: 0.5;
+    margin-top: 3rem;
+    animation: diamondPulse 5s ease-in-out infinite;
+  }
+
+  /* ══════════════════════════════════════
+     RESPONSIVE
+  ══════════════════════════════════════ */
+  @media (max-width: 600px) {
+    #nav-dots { display: none; }
+    .minerals-grid { grid-template-columns: 1fr; }
+    .cycle-diagram { aspect-ratio: 1.2; }
+    .crystal-visual { flex-direction: row; }
+  }
+
+  /* ══════════════════════════════════════
+     HIDDEN STATE (before intro interaction)
+  ══════════════════════════════════════ */
+  .content-section { display: none; }
+  .content-section.revealed { display: block; }
+
+  /* scroll reveal */
+  .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.7s ease, transform 0.7s ease; }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+</style>
+</head>
+<body>
+
+<div id="progress-bar"></div>
+
+<nav id="nav-dots">
+  <button class="nav-dot active" data-target="intro" title="Intro"></button>
+  <button class="nav-dot" data-target="historia" title="História"></button>
+  <button class="nav-dot" data-target="formacao" title="Formação"></button>
+  <button class="nav-dot" data-target="minerais" title="Minerais"></button>
+  <button class="nav-dot" data-target="ciclo" title="Ciclo"></button>
+  <button class="nav-dot" data-target="quiz" title="Quiz"></button>
+  <button class="nav-dot" data-target="final" title="Final"></button>
+</nav>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- 1. INTRO                                    -->
+<!-- ═══════════════════════════════════════════ -->
+<section id="intro">
+  <div class="intro-diamond"></div>
+  <span class="intro-label">Rocha magmática · Projeto de Geologia · 11.º Ano</span>
+  <h1 class="intro-title">Granito<br><em style="font-style:italic;color:var(--granite-beige)">Dom Pedrágio</em></h1>
+  <p class="intro-subtitle">O Guardião do Tempo</p>
+  <p class="intro-quote">"Toca-me e tocarás duzentos milhões de anos."</p>
+  <button class="btn-enter" onclick="enterStory()"><span>Entrar na história</span></button>
+</section>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- 2. HISTÓRIA                                 -->
+<!-- ═══════════════════════════════════════════ -->
+<section id="historia" class="content-section">
+  <div class="section-header reveal">
+    <span class="section-num">I — As Minhas Origens</span>
+    <h2 class="section-title">Uma Autobiografia<br><em style="font-style:italic;color:var(--granite-beige)">em Pedra</em></h2>
+    <div class="section-line"></div>
+  </div>
+
+  <div class="story-container">
+    <p class="story-paragraph">
+      Chamo-me granito, e sou mais antigo do que qualquer memória humana. Nasci nas entranhas da Terra, onde o silêncio é absoluto e a pressão suficiente para dobrar o tempo. A minha história começa quando um <strong>magma félsico</strong> — rico em sílica (SiO₂) — iniciou o seu arrefecimento lento, a vários quilómetros de profundidade, no interior de uma <em>intrusão plutónica</em>.
+    </p>
+
+    <p class="story-paragraph">
+      Essa lentidão foi o meu maior presente. Graças a ela, os meus minerais formaram <strong>cristais visíveis a olho nu</strong> — é o que os geólogos chamam <em>textura fanerítica</em>, a marca inconfundível das rochas plutónicas. Quem me observar atentamente encontrará três atores principais: o <strong>quartzo</strong>, translúcido e vitroso; o <strong>feldspato</strong>, que me empresta tons cálidos de rosa e bege; e as <strong>micas</strong> — biotite negra ou moscovite prateada — que cintilam quando a luz rasante me toca.
+    </p>
+
+    <div class="story-aside">
+      <p>Quimicamente, sou uma <strong>rocha ácida</strong>: o teor em sílica supera os 65%, acompanhado de óxidos de alumínio, potássio, sódio e pequenas proporções de ferro e magnésio. Esta composição define não só a minha cor clara, entre o cinzento frio e o rosado quente, mas também a minha personalidade mineral — estável, dura, persistente.</p>
+    </div>
+
+    <p class="story-paragraph">
+      Formei-me em contextos tectónicos onde o calor e a pressão da crosta permitem a fusão parcial das rochas, gerando magmas félsicos. Se o destino me tivesse levado à superfície rapidamente, teria arrefecido depressa e seria outro — um <em>riolito</em>, de grão fino, sem a grandiosidade dos meus cristais. Mas fiquei nas profundezas. E lá aprendi que a paciência é a forma mais sublime de força.
+    </p>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- 3. FORMAÇÃO — TIMELINE                      -->
+<!-- ═══════════════════════════════════════════ -->
+<section id="formacao" class="content-section">
+  <div class="section-header reveal">
+    <span class="section-num">II — A Minha Formação</span>
+    <h2 class="section-title">Do Manto ao<br><em style="font-style:italic;color:var(--granite-beige)">Cristal</em></h2>
+    <div class="section-line"></div>
+  </div>
+
+  <div class="formation-scene">
+
+    <!-- Earth cross-section SVG -->
+    <div class="earth-layers reveal">
+      <svg viewBox="0 0 600 320" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="mantleGrad" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#5c2a0a"/>
+            <stop offset="100%" stop-color="#3a1505"/>
+          </linearGradient>
+          <linearGradient id="crustGrad" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#4a3d32"/>
+            <stop offset="100%" stop-color="#2e2520"/>
+          </linearGradient>
+          <linearGradient id="surfaceGrad" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#3a4a2e"/>
+            <stop offset="100%" stop-color="#2a3822"/>
+          </linearGradient>
+          <filter id="glow">
+            <feGaussianBlur stdDeviation="3" result="blur"/>
+            <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+          </filter>
+          <radialGradient id="magmaGlow" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#ff8c00" stop-opacity="0.8"/>
+            <stop offset="100%" stop-color="#c84800" stop-opacity="0.2"/>
+          </radialGradient>
+        </defs>
+
+        <!-- Manto -->
+        <rect x="0" y="200" width="600" height="120" fill="url(#mantleGrad)"/>
+        <!-- Crusta inferior -->
+        <rect x="0" y="130" width="600" height="70" fill="url(#crustGrad)"/>
+        <!-- Crusta superior -->
+        <rect x="0" y="60" width="600" height="70" fill="#3d3428"/>
+        <!-- Superfície -->
+        <rect x="0" y="0" width="600" height="60" fill="url(#surfaceGrad)"/>
+
+        <!-- Divisórias -->
+        <line x1="0" y1="200" x2="600" y2="200" stroke="rgba(200,150,80,0.3)" stroke-width="1"/>
+        <line x1="0" y1="130" x2="600" y2="130" stroke="rgba(200,150,80,0.2)" stroke-width="1" stroke-dasharray="4,4"/>
+        <line x1="0" y1="60" x2="600" y2="60" stroke="rgba(200,150,80,0.15)" stroke-width="1"/>
+
+        <!-- Labels -->
+        <text x="10" y="50" font-family="Josefin Sans" font-size="9" fill="rgba(160,200,120,0.8)" letter-spacing="2">SUPERFÍCIE</text>
+        <text x="10" y="105" font-family="Josefin Sans" font-size="9" fill="rgba(200,185,168,0.6)" letter-spacing="2">CRUSTA</text>
+        <text x="10" y="175" font-family="Josefin Sans" font-size="9" fill="rgba(200,185,168,0.5)" letter-spacing="2">CRUSTA INFERIOR</text>
+        <text x="10" y="245" font-family="Josefin Sans" font-size="9" fill="rgba(200,130,50,0.7)" letter-spacing="2">MANTO</text>
+
+        <!-- Intrusão plutónica -->
+        <ellipse cx="300" cy="160" rx="90" ry="50" fill="url(#magmaGlow)" opacity="0.7"/>
+        <ellipse cx="300" cy="162" rx="75" ry="42" fill="rgba(200,80,20,0.4)"/>
+
+        <!-- Magma rising -->
+        <path d="M300,260 Q310,220 305,195 Q295,170 300,140" stroke="rgba(255,150,30,0.5)" stroke-width="6" fill="none" stroke-linecap="round">
+          <animate attributeName="stroke-dasharray" values="0,200;200,0" dur="3s" repeatCount="indefinite"/>
+        </path>
+
+        <!-- Crystal formations in intrusion -->
+        <polygon points="285,150 295,165 275,165" fill="rgba(220,215,200,0.4)"/>
+        <polygon points="310,145 322,162 298,162" fill="rgba(196,137,106,0.5)"/>
+        <polygon points="260,155 268,168 252,168" fill="rgba(184,150,46,0.5)"/>
+        <polygon points="330,152 340,167 320,167" fill="rgba(220,215,200,0.4)"/>
+
+        <!-- Label intrusion -->
+        <text x="300" y="183" font-family="Josefin Sans" font-size="7" fill="rgba(255,200,100,0.9)" text-anchor="middle" letter-spacing="1.5">INTRUSÃO PLUTÓNICA</text>
+
+        <!-- Fault lines -->
+        <line x1="200" y1="0" x2="215" y2="320" stroke="rgba(200,150,80,0.1)" stroke-width="1"/>
+        <line x1="400" y1="0" x2="385" y2="320" stroke="rgba(200,150,80,0.1)" stroke-width="1"/>
+      </svg>
+    </div>
+
+    <!-- Timeline steps -->
+    <div class="timeline">
+
+      <div class="timeline-step">
+        <div class="timeline-dot"></div>
+        <div class="timeline-phase">Fase 1</div>
+        <h3 class="timeline-heading">🌋 Calor do Manto</h3>
+        <p class="timeline-text">Nas profundezas do manto terrestre, temperaturas que ultrapassam os 700°C provocam a <em>fusão parcial</em> de rochas ricas em sílica, dando origem a um magma félsico denso e viscoso.</p>
+        <div class="magma-visual">
+          <div class="magma-blob"></div>
+          <div class="magma-blob"></div>
+          <div class="magma-blob"></div>
+          <div class="magma-blob"></div>
+          <span class="magma-label">Magma félsico · SiO₂ &gt; 65%</span>
+        </div>
+      </div>
+
+      <div class="timeline-step">
+        <div class="timeline-dot"></div>
+        <div class="timeline-phase">Fase 2</div>
+        <h3 class="timeline-heading">⬆️ Ascensão do Magma</h3>
+        <p class="timeline-text">Menos denso que a rocha circundante, o magma sobe lentamente através de fraturas e zonas de fraqueza da crosta, impulsionado pela diferença de pressão e temperatura.</p>
+      </div>
+
+      <div class="timeline-step">
+        <div class="timeline-dot"></div>
+        <div class="timeline-phase">Fase 3</div>
+        <h3 class="timeline-heading">🏔️ Intrusão Plutónica</h3>
+        <p class="timeline-text">O magma fica retido a vários quilómetros de profundidade, formando um <em>batólito</em> — uma enorme massa de rocha magmática rodeada por rocha encaixante. O isolamento térmico é quase perfeito.</p>
+      </div>
+
+      <div class="timeline-step">
+        <div class="timeline-dot"></div>
+        <div class="timeline-phase">Fase 4</div>
+        <h3 class="timeline-heading">❄️ Arrefecimento Lento</h3>
+        <p class="timeline-text">Durante <strong>milhões de anos</strong>, o magma arrefece muitíssimo lentamente. Esta lentidão é a chave: os iões têm tempo suficiente para se organizar em redes cristalinas bem definidas.</p>
+      </div>
+
+      <div class="timeline-step">
+        <div class="timeline-dot"></div>
+        <div class="timeline-phase">Fase 5</div>
+        <h3 class="timeline-heading">💎 Crescimento de Cristais</h3>
+        <p class="timeline-text">Os minerais cristalizam por ordem de temperatura de fusão. Primeiro o quartzo e o feldspato, depois as micas. Os cristais crescem até serem visíveis a olho nu — <em>textura fanerítica</em>.</p>
+        <div class="crystal-visual">
+          <div class="crystal-item"><span class="crystal-emoji">🔷</span>Quartzo</div>
+          <div class="crystal-item"><span class="crystal-emoji">🟫</span>Feldspato</div>
+          <div class="crystal-item"><span class="crystal-emoji">✨</span>Mica</div>
+        </div>
+      </div>
+
+      <div class="timeline-step">
+        <div class="timeline-dot"></div>
+        <div class="timeline-phase">Fase 6</div>
+        <h3 class="timeline-heading">🪨 Granito Formado</h3>
+        <p class="timeline-text">O arrefecimento está completo. A rocha plutónica fanerítica de composição granítica está formada — dura, resistente, com cristais visíveis e uma história de centenas de milhões de anos inscrita em cada grão.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- 4. MINERAIS INTERATIVOS                     -->
+<!-- ═══════════════════════════════════════════ -->
+<section id="minerais" class="content-section">
+  <div class="section-header reveal">
+    <span class="section-num">III — Os Meus Constituintes</span>
+    <h2 class="section-title">Minerais<br><em style="font-style:italic;color:var(--granite-beige)">Interativos</em></h2>
+    <div class="section-line"></div>
+  </div>
+
+  <div class="minerals-grid">
+
+    <div class="mineral-card" data-mineral="quartzo" onclick="toggleMineral(this)">
+      <span class="mineral-icon">🔷</span>
+      <h3 class="mineral-name">Quartzo</h3>
+      <p class="mineral-formula">SiO₂ · Dureza 7 Mohs</p>
+      <p class="mineral-teaser">O mais resistente, translúcido como água gelada.</p>
+      <div class="mineral-expand">
+        <div class="mineral-expand-inner">
+          <p><span class="mineral-tag">Composição</span><span class="mineral-tag">Silicato</span><span class="mineral-tag">Tetraedros SiO₄</span></p>
+          <p>Formado por átomos de silício ligados a quatro oxigénios em estrutura tetraédrica contínua. Apresenta cor cinzento-leitoso a translúcido no granito, com brilho vítreo e ausência de clivagem.</p>
+          <p>Dureza 7 na escala de Mohs — risca o vidro sem esforço. É o último mineral a cristalizar, preenchendo os espaços entre os outros cristais.</p>
+          <p class="mineral-story">"Sou o mais resistente de todos. Enquanto os meus companheiros se transformam em argila sob a chuva, eu persisto — grão a grão, rio abaixo, até me tornar areia de praia."</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="mineral-card" data-mineral="feldspato" onclick="toggleMineral(this)">
+      <span class="mineral-icon">🟫</span>
+      <h3 class="mineral-name">Feldspato</h3>
+      <p class="mineral-formula">KAlSi₃O₈ · Ortoclase / Microclina</p>
+      <p class="mineral-teaser">O que dá cor ao granito — rosa, bege, creme.</p>
+      <div class="mineral-expand">
+        <div class="mineral-expand-inner">
+          <p><span class="mineral-tag">Silicato de K/Na/Ca</span><span class="mineral-tag">Plagioclase</span><span class="mineral-tag">Ortoclase</span></p>
+          <p>Mineral mais abundante do granito. A <em>ortoclase</em> e a <em>microclina</em> (ricas em potássio) conferem tons rosados e béges quentes. A <em>plagioclase</em> (rica em sódio/cálcio) é mais pálida, quase branca.</p>
+          <p>Dureza 6 — mais vulnerável que o quartzo. Sob a ação da chuva e do CO₂ atmosférico, sofre <em>hidrólise</em>, transformando-se lentamente em minerais de argila (caulinite).</p>
+          <p class="mineral-story">"A minha decomposição não é morte — é renascimento. Torno-me argila, enriqueço o solo, e a vida nasce sobre mim. Sou a generosidade petrificada do granito."</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="mineral-card" data-mineral="mica" onclick="toggleMineral(this)">
+      <span class="mineral-icon">✨</span>
+      <h3 class="mineral-name">Mica</h3>
+      <p class="mineral-formula">Biotite (negra) · Moscovite (prateada)</p>
+      <p class="mineral-teaser">Lâminas que cintilam — prateadas ou negras.</p>
+      <div class="mineral-expand">
+        <div class="mineral-expand-inner">
+          <p><span class="mineral-tag">Filossilicato</span><span class="mineral-tag">Clivagem basal perfeita</span><span class="mineral-tag">Brilho perláceo</span></p>
+          <p>A <em>biotite</em> (K(Mg,Fe)₃AlSi₃O₁₀(OH)₂) é preta ou castanho-escuro, rica em ferro e magnésio. A <em>moscovite</em> (KAl₂AlSi₃O₁₀(OH)₂) é incolor a prateada, mais rica em alumínio.</p>
+          <p>A sua estrutura em folhas paralelas (filossilicato) permite divisão em lâminas finíssimas. São os últimos minerais a cristalizar e os que melhor registam a história termal da rocha.</p>
+          <p class="mineral-story">"Sou o espelho do granito. Quando a luz me toca, cintilas — um lampejo de prata ou de carvão que recorda que, no passado, fui fogo."</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- 5. CICLO DAS ROCHAS                         -->
+<!-- ═══════════════════════════════════════════ -->
+<section id="ciclo" class="content-section">
+  <div class="section-header reveal">
+    <span class="section-num">IV — A Minha Jornada</span>
+    <h2 class="section-title">O Ciclo<br><em style="font-style:italic;color:var(--granite-beige)">das Rochas</em></h2>
+    <div class="section-line"></div>
+  </div>
+
+  <div class="cycle-scene">
+    <div class="cycle-diagram reveal">
+      <svg viewBox="0 0 700 420" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <marker id="arr" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+            <path d="M0,0 L0,6 L8,3 z" fill="rgba(200,185,168,0.6)"/>
+          </marker>
+          <marker id="arr2" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+            <path d="M0,0 L0,6 L8,3 z" fill="rgba(196,137,106,0.7)"/>
+          </marker>
+          <filter id="softglow">
+            <feGaussianBlur stdDeviation="4" result="b"/>
+            <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+          </filter>
+        </defs>
+
+        <!-- Background -->
+        <rect width="700" height="420" fill="rgba(26,23,20,0.4)" rx="8"/>
+
+        <!-- NODES -->
+        <!-- 1. Granito -->
+        <g transform="translate(100,80)">
+          <circle r="52" fill="rgba(100,90,80,0.3)" stroke="rgba(200,185,168,0.4)" stroke-width="1.5"/>
+          <text y="-12" text-anchor="middle" font-family="Cormorant Garamond" font-size="15" fill="#e8e0d5" font-weight="300">Granito</text>
+          <text y="5" text-anchor="middle" font-family="Josefin Sans" font-size="8" fill="rgba(200,185,168,0.6)" letter-spacing="1">Rocha Magmática</text>
+          <text y="19" text-anchor="middle" font-family="Josefin Sans" font-size="8" fill="rgba(200,185,168,0.6)" letter-spacing="1">Plutónica</text>
+          <text y="32" text-anchor="middle" font-family="Cormorant Garamond" font-size="18" fill="rgba(200,185,168,0.3)">🪨</text>
+        </g>
+
+        <!-- 2. Erosão -->
+        <g transform="translate(350,60)">
+          <circle r="52" fill="rgba(70,100,65,0.25)" stroke="rgba(120,160,110,0.4)" stroke-width="1.5"/>
+          <text y="-12" text-anchor="middle" font-family="Cormorant Garamond" font-size="15" fill="#e8e0d5" font-weight="300">Erosão</text>
+          <text y="5" text-anchor="middle" font-family="Josefin Sans" font-size="8" fill="rgba(200,185,168,0.6)" letter-spacing="1">Meteorização</text>
+          <text y="19" text-anchor="middle" font-family="Josefin Sans" font-size="8" fill="rgba(200,185,168,0.6)" letter-spacing="1">e Transporte</text>
+          <text y="32" text-anchor="middle" font-family="Cormorant Garamond" font-size="18" fill="rgba(130,180,110,0.3)">💧</text>
+        </g>
+
+        <!-- 3. Sedimentos -->
+        <g transform="translate(590,200)">
+          <circle r="52" fill="rgba(120,100,70,0.25)" stroke="rgba(180,150,100,0.4)" stroke-width="1.5"/>
+          <text y="-12" text-anchor="middle" font-family="Cormorant Garamond" font-size="15" fill="#e8e0d5" font-weight="300">Sedimentos</text>
+          <text y="5" text-anchor="middle" font-family="Josefin Sans" font-size="8" fill="rgba(200,185,168,0.6)" letter-spacing="1">Arenito</text>
+          <text y="19" text-anchor="middle" font-family="Josefin Sans" font-size="8" fill="rgba(200,185,168,0.6)" letter-spacing="1">Argilito</text>
+          <text y="32" text-anchor="middle" font-family="Cormorant Garamond" font-size="18" fill="rgba(180,150,80,0.3)">🏖️</text>
+        </g>
+
+        <!-- 4. Gnaisse -->
+        <g transform="translate(350,360)">
+          <circle r="52" fill="rgba(80,60,100,0.25)" stroke="rgba(140,100,180,0.4)" stroke-width="1.5"/>
+          <text y="-12" text-anchor="middle" font-family="Cormorant Garamond" font-size="15" fill="#e8e0d5" font-weight="300">Gnaisse</text>
+          <text y="5" text-anchor="middle" font-family="Josefin Sans" font-size="8" fill="rgba(200,185,168,0.6)" letter-spacing="1">Rocha</text>
+          <text y="19" text-anchor="middle" font-family="Josefin Sans" font-size="8" fill="rgba(200,185,168,0.6)" letter-spacing="1">Metamórfica</text>
+          <text y="32" text-anchor="middle" font-family="Cormorant Garamond" font-size="18" fill="rgba(140,100,180,0.3)">🔮</text>
+        </g>
+
+        <!-- 5. Magma (centro-baixo) -->
+        <g transform="translate(100,310)">
+          <circle r="52" fill="rgba(180,80,20,0.25)" stroke="rgba(230,130,40,0.4)" stroke-width="1.5"/>
+          <text y="-12" text-anchor="middle" font-family="Cormorant Garamond" font-size="15" fill="#e8e0d5" font-weight="300">Magma</text>
+          <text y="5" text-anchor="middle" font-family="Josefin Sans" font-size="8" fill="rgba(200,185,168,0.6)" letter-spacing="1">Fusão</text>
+          <text y="19" text-anchor="middle" font-family="Josefin Sans" font-size="8" fill="rgba(200,185,168,0.6)" letter-spacing="1">Parcial</text>
+          <text y="32" text-anchor="middle" font-family="Cormorant Garamond" font-size="18" fill="rgba(230,130,40,0.3)">🌋</text>
+        </g>
+
+        <!-- ARROWS -->
+        <!-- Granito → Erosão -->
+        <path d="M155,75 Q230,40 295,62" fill="none" stroke="rgba(200,185,168,0.5)" stroke-width="1.5" marker-end="url(#arr)">
+          <animate attributeName="stroke-dashoffset" values="200;0" dur="2s" repeatCount="indefinite"/>
+          <animate attributeName="stroke-dasharray" values="0,200;200,0" dur="3s" repeatCount="indefinite"/>
+        </path>
+        <text x="220" y="38" text-anchor="middle" font-family="Josefin Sans" font-size="7" fill="rgba(180,180,140,0.6)" letter-spacing="1.5">METEORIZAÇÃO</text>
+
+        <!-- Erosão → Sedimentos -->
+        <path d="M403,90 Q520,100 542,150" fill="none" stroke="rgba(200,185,168,0.5)" stroke-width="1.5" marker-end="url(#arr)">
+          <animate attributeName="stroke-dasharray" values="0,200;200,0" dur="3s" repeatCount="indefinite" begin="0.5s"/>
+        </path>
+        <text x="500" y="105" text-anchor="middle" font-family="Josefin Sans" font-size="7" fill="rgba(180,180,140,0.6)" letter-spacing="1.5">DEPOSIÇÃO</text>
+
+        <!-- Sedimentos → Gnaisse -->
+        <path d="M562,248 Q560,310 405,345" fill="none" stroke="rgba(200,185,168,0.5)" stroke-width="1.5" marker-end="url(#arr)">
+          <animate attributeName="stroke-dasharray" values="0,200;200,0" dur="3s" repeatCount="indefinite" begin="1s"/>
+        </path>
+        <text x="525" y="310" text-anchor="middle" font-family="Josefin Sans" font-size="7" fill="rgba(180,180,140,0.6)" letter-spacing="1.5">METAMORFISMO</text>
+
+        <!-- Gnaisse → Magma -->
+        <path d="M298,365 Q190,390 152,358" fill="none" stroke="rgba(200,185,168,0.5)" stroke-width="1.5" marker-end="url(#arr)">
+          <animate attributeName="stroke-dasharray" values="0,200;200,0" dur="3s" repeatCount="indefinite" begin="1.5s"/>
+        </path>
+        <text x="218" y="400" text-anchor="middle" font-family="Josefin Sans" font-size="7" fill="rgba(180,180,140,0.6)" letter-spacing="1.5">FUSÃO</text>
+
+        <!-- Magma → Granito -->
+        <path d="M100,258 Q100,190 100,135" fill="none" stroke="rgba(230,130,40,0.6)" stroke-width="1.5" marker-end="url(#arr2)">
+          <animate attributeName="stroke-dasharray" values="0,200;200,0" dur="2.5s" repeatCount="indefinite" begin="0.8s"/>
+        </path>
+        <text x="62" y="210" text-anchor="middle" font-family="Josefin Sans" font-size="7" fill="rgba(230,130,40,0.7)" letter-spacing="1.5" transform="rotate(-90,62,210)">CRISTALIZAÇÃO</text>
+
+      </svg>
+    </div>
+
+    <div class="cycle-legend reveal">
+      <div class="legend-item">
+        <div class="legend-dot" style="background:#c8b9a8"></div>
+        <div class="legend-text">
+          <h4>Granito → Erosão</h4>
+          <p>Meteorização física e química. Feldspatos tornam-se argila.</p>
+        </div>
+      </div>
+      <div class="legend-item">
+        <div class="legend-dot" style="background:#8fb880"></div>
+        <div class="legend-text">
+          <h4>Erosão → Sedimentos</h4>
+          <p>Transporte fluvial, deposição em camadas, formação de arenito.</p>
+        </div>
+      </div>
+      <div class="legend-item">
+        <div class="legend-dot" style="background:#8c78b0"></div>
+        <div class="legend-text">
+          <h4>Sedimentos → Gnaisse</h4>
+          <p>Enterramento profundo, pressão e temperatura elevadas.</p>
+        </div>
+      </div>
+      <div class="legend-item">
+        <div class="legend-dot" style="background:#e68028"></div>
+        <div class="legend-text">
+          <h4>Magma → Granito</h4>
+          <p>Arrefecimento lento em intrusão plutónica. Cristais crescem.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- 6. QUIZ                                     -->
+<!-- ═══════════════════════════════════════════ -->
+<section id="quiz" class="content-section">
+  <div class="section-header reveal">
+    <span class="section-num">V — Testa o Teu Saber</span>
+    <h2 class="section-title">Quiz<br><em style="font-style:italic;color:var(--granite-beige)">Geológico</em></h2>
+    <div class="section-line"></div>
+  </div>
+
+  <div class="quiz-container">
+    <div id="quiz-game">
+      <div class="quiz-progress" id="quiz-progress">
+        <div class="quiz-pip current"></div>
+        <div class="quiz-pip"></div>
+        <div class="quiz-pip"></div>
+      </div>
+      <div class="quiz-card" id="quiz-card">
+        <div class="quiz-q-num" id="quiz-q-num">Questão 1 de 3</div>
+        <p class="quiz-question" id="quiz-question"></p>
+        <div class="quiz-options" id="quiz-options"></div>
+        <p class="quiz-feedback" id="quiz-feedback"></p>
+        <button class="quiz-next-btn" id="quiz-next" onclick="nextQuestion()">Próxima questão →</button>
+      </div>
+    </div>
+    <div id="quiz-result" style="display:none"></div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- 7. FINAL                                    -->
+<!-- ═══════════════════════════════════════════ -->
+<section id="final" class="content-section">
+  <p class="final-text">
+    Sou o granito — memória sólida da Terra, arquivo de fogo e de silêncio. Nasci da fusão parcial da crosta, cresci devagar nas trevas plutónicas, e emergi à superfície já com milhões de anos de história inscrita nos meus cristais. Enfrentei a chuva, o gelo, a erosão dos rios e o peso dos séculos. Ainda assim, persisto.
+  </p>
+  <p class="final-text" style="transition-delay: 0.3s">
+    Em cada catedral erguida com os meus blocos, em cada passeio de calçada onde os pés humanos batem o ritmo do quotidiano, em cada bancada de cozinha onde a luz da manhã escorrega sobre os meus cristais, estou presente. Sou simultaneamente o passado geológico mais remoto e o presente mais tangível — a rocha que se pode tocar, que resiste, que dura.
+  </p>
+  <p class="final-quote">"Toca-me e tocarás duzentos milhões de anos."</p>
+  <p class="final-meta">Qz · Fsp · Bt · Ms · Rocha Magmática Plutónica · Ciclo das Rochas</p>
+  <div class="final-diamond">◆</div>
+</section>
+
+<script>
+/* ═══════════════════════════════════════════════════
+   STATE
+══════════════════════════════════════════════════ */
+let storyStarted = false;
+
+/* ═══════════════════════════════════════════════════
+   INTRO → STORY
+══════════════════════════════════════════════════ */
+function enterStory() {
+  storyStarted = true;
+  document.querySelectorAll('.content-section').forEach(s => s.classList.add('revealed'));
+  setTimeout(() => {
+    document.getElementById('historia').scrollIntoView({ behavior: 'smooth' });
+  }, 100);
+}
+
+/* ═══════════════════════════════════════════════════
+   SCROLL PROGRESS BAR
+══════════════════════════════════════════════════ */
+window.addEventListener('scroll', () => {
+  const scrolled = window.scrollY;
+  const total = document.body.scrollHeight - window.innerHeight;
+  document.getElementById('progress-bar').style.width = (scrolled / total * 100) + '%';
+  updateNavDots();
+  revealOnScroll();
+});
+
+/* ═══════════════════════════════════════════════════
+   NAV DOTS
+══════════════════════════════════════════════════ */
+const sections = ['intro','historia','formacao','minerais','ciclo','quiz','final'];
+
+function updateNavDots() {
+  const dots = document.querySelectorAll('.nav-dot');
+  let current = 0;
+  sections.forEach((id, i) => {
+    const el = document.getElementById(id);
+    if (el && el.getBoundingClientRect().top <= window.innerHeight / 2) current = i;
+  });
+  dots.forEach((d, i) => d.classList.toggle('active', i === current));
+}
+
+document.querySelectorAll('.nav-dot').forEach((dot, i) => {
+  dot.addEventListener('click', () => {
+    if (!storyStarted && i > 0) enterStory();
+    setTimeout(() => {
+      const el = document.getElementById(sections[i]);
+      if (el) el.scrollIntoView({ behavior: 'smooth' });
+    }, 100);
+  });
+});
+
+/* ═══════════════════════════════════════════════════
+   SCROLL REVEAL
+══════════════════════════════════════════════════ */
+function revealOnScroll() {
+  const triggers = document.querySelectorAll('.reveal, .story-paragraph, .story-aside, .timeline-step, .final-text, .final-quote, .final-meta');
+  triggers.forEach(el => {
+    const rect = el.getBoundingClientRect();
+    if (rect.top < window.innerHeight * 0.88) {
+      el.classList.add('visible');
+    }
+  });
+}
+
+/* ═══════════════════════════════════════════════════
+   MINERALS TOGGLE
+══════════════════════════════════════════════════ */
+function toggleMineral(card) {
+  const isActive = card.classList.contains('active');
+  document.querySelectorAll('.mineral-card').forEach(c => c.classList.remove('active'));
+  if (!isActive) card.classList.add('active');
+}
+
+/* ═══════════════════════════════════════════════════
+   QUIZ
+══════════════════════════════════════════════════ */
+const questions = [
+  {
+    q: "Qual é a principal característica que distingue o granito de um riolito, sendo ambos de composição félsica?",
+    options: [
+      "O granito tem mais sílica do que o riolito.",
+      "O granito tem textura fanerítica por arrefecer lentamente em profundidade.",
+      "O riolito é mais denso e mais duro.",
+      "O granito forma-se apenas em zonas de subducção."
+    ],
+    correct: 1,
+    feedback: {
+      correct: "Exato! A textura fanerítica (cristais visíveis a olho nu) resulta do arrefecimento lento do magma em intrusão plutónica profunda.",
+      wrong: "Não exatamente. A diferença essencial é a textura: o granito arrefece lentamente em profundidade, formando cristais visíveis (textura fanerítica), ao contrário do riolito."
+    }
+  },
+  {
+    q: "Qual dos processos seguintes transforma os feldspatos do granito em minerais de argila durante a meteorização?",
+    options: [
+      "Cristalização fracionada",
+      "Metamorfismo de contacto",
+      "Hidrólise química",
+      "Fusão parcial"
+    ],
+    correct: 2,
+    feedback: {
+      correct: "Correto! A hidrólise é a reação química entre a água (e o CO₂ dissolvido) e os feldspatos, originando minerais de argila como a caulinite.",
+      wrong: "Não. O processo correto é a hidrólise — a reação química da água com os feldspatos, que os transforma progressivamente em minerais de argila."
+    }
+  },
+  {
+    q: "Se o granito for soterrado e sujeito a temperatura e pressão muito elevadas, que rocha pode formar-se?",
+    options: [
+      "Basalto",
+      "Calcário",
+      "Gnaisse",
+      "Arenito"
+    ],
+    correct: 2,
+    feedback: {
+      correct: "Perfeito! O gnaisse é a rocha metamórfica de alto grau que resulta da recristalização do granito, reconhecível pelas bandas alternadas de minerais claros e escuros.",
+      wrong: "Não. Sob alta pressão e temperatura, o granito metamorfiza-se em gnaisse — uma rocha que conserva os minerais graníticos mas os reorganiza em bandas características."
+    }
+  }
+];
+
+let currentQ = 0;
+let score = 0;
+let answered = false;
+
+function loadQuestion() {
+  const q = questions[currentQ];
+  document.getElementById('quiz-q-num').textContent = `Questão ${currentQ + 1} de ${questions.length}`;
+  document.getElementById('quiz-question').textContent = q.q;
+  document.getElementById('quiz-feedback').textContent = '';
+  document.getElementById('quiz-feedback').className = 'quiz-feedback';
+  document.getElementById('quiz-next').style.display = 'none';
+  answered = false;
+
+  const pips = document.querySelectorAll('.quiz-pip');
+  pips.forEach((p, i) => {
+    p.className = 'quiz-pip';
+    if (i < currentQ) p.classList.add('done');
+    if (i === currentQ) p.classList.add('current');
+  });
+
+  const optionsEl = document.getElementById('quiz-options');
+  optionsEl.innerHTML = '';
+  q.options.forEach((opt, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'quiz-btn';
+    btn.textContent = opt;
+    btn.onclick = () => answer(i, btn);
+    optionsEl.appendChild(btn);
+  });
+
+  // Refresh animation
+  const card = document.getElementById('quiz-card');
+  card.style.animation = 'none';
+  card.offsetHeight;
+  card.style.animation = 'fadeUp 0.5s ease both';
+}
+
+function answer(idx, btn) {
+  if (answered) return;
+  answered = true;
+  const q = questions[currentQ];
+  const buttons = document.querySelectorAll('.quiz-btn');
+  buttons.forEach(b => b.disabled = true);
+
+  const feedback = document.getElementById('quiz-feedback');
+  if (idx === q.correct) {
+    btn.classList.add('correct');
+    feedback.textContent = '✓ ' + q.feedback.correct;
+    feedback.className = 'quiz-feedback correct';
+    score++;
+  } else {
+    btn.classList.add('wrong');
+    buttons[q.correct].classList.add('correct');
+    feedback.textContent = '✗ ' + q.feedback.wrong;
+    feedback.className = 'quiz-feedback wrong';
+  }
+
+  const nextBtn = document.getElementById('quiz-next');
+  nextBtn.textContent = currentQ < questions.length - 1 ? 'Próxima questão →' : 'Ver resultado →';
+  nextBtn.style.display = 'inline-block';
+}
+
+function nextQuestion() {
+  currentQ++;
+  if (currentQ < questions.length) {
+    loadQuestion();
+  } else {
+    showResult();
+  }
+}
+
+function showResult() {
+  document.getElementById('quiz-game').style.display = 'none';
+  const pct = Math.round(score / questions.length * 100);
+  const msgs = [
+    "A Terra tem ainda muitos segredos para te revelar. Continua a explorar o mundo das rochas!",
+    "Bom começo! Os cristais do granito ficaram satisfeitos com a tua persistência.",
+    "Excelente! Tens instinto de geólogo. O Dom Pedrágio orgulha-se de ti."
+  ];
+  const msg = score === 0 ? msgs[0] : score === 1 ? msgs[1] : score === 2 ? msgs[1] : msgs[2];
+  document.getElementById('quiz-result').innerHTML = `
+    <div class="quiz-result">
+      <div class="quiz-result-score">${score}/${questions.length}</div>
+      <div class="quiz-result-label">Respostas corretas</div>
+      <p class="quiz-result-msg">${msg}</p>
+      <button class="quiz-restart-btn" onclick="restartQuiz()">Tentar novamente</button>
+    </div>
+  `;
+  document.getElementById('quiz-result').style.display = 'block';
+}
+
+function restartQuiz() {
+  currentQ = 0; score = 0;
+  document.getElementById('quiz-result').style.display = 'none';
+  document.getElementById('quiz-game').style.display = 'block';
+  loadQuestion();
+}
+
+/* ═══════════════════════════════════════════════════
+   INIT
+══════════════════════════════════════════════════ */
+window.addEventListener('DOMContentLoaded', () => {
+  loadQuestion();
+  revealOnScroll();
+});
+</script>
+</body>
+</html>
